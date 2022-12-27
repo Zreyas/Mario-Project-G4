@@ -1,0 +1,570 @@
+html
+    title
+        Mario Game
+    title
+
+style
+    body {
+        margin 0;
+        background-color black;
+        display flex;
+        align-items center;
+        justify-content center;
+        height 100vh;
+    }
+    .sc{
+         align-content flex-start; 
+        position fixed;
+        left 20px;
+        top20px;
+    }
+style
+p style=color aliceblue; font-family sans-serif; font-size 20px;
+          align-content flex-start;
+    spanScore spanspan id=scoreEl0span
+    br
+   !-- spanHigh Score spanspan id=txtHintspan --
+
+p
+
+  script
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById(txtHint).innerHTML = this.responseText;
+        console.log(sc,this.responseText);
+      }
+    };
+    xmlhttp.open(GET,getuser.phpq=+str,true);
+    xmlhttp.send();
+  script
+
+canvascanvas
+script
+    
+    const canvas = document.querySelector('canvas')
+    const c = canvas.getContext('2d')
+    
+    const scoreEl = document.querySelector('#scoreEl')
+    
+
+    canvas.width = 1024
+    canvas.height = 576
+    
+    const gravity = 1.6
+
+    const image4 = new Image()
+    image4.src = 'spriteStandRight.png'
+
+    const image5 = new Image()
+    image5.src = 'spriteRunRight.png'
+
+    const image6 = new Image()
+    image6.src = 'spriteStandLeft.png'
+
+    const image7 = new Image()
+    image7.src = 'spriteRunLeft.png'
+    let scrolloffset = 0
+    c.font = 30px Arial
+    c.fillText(SCORE   + scrolloffset, 30, 50)
+
+    class Player {
+    
+        constructor() {
+            this.speed = 10
+            this.position = {
+                x 100,
+                y 100
+            }
+            this.velocity = {
+               x 0,
+               y 0 
+            }
+            this.image = image4
+            this.width = 66
+            this.height = 150
+            
+            this.frames = 0
+            this.sprites = {
+                stand {
+                    right image4,
+                    left image6,
+                    cropWidth 177,
+                    width 66
+                },
+                run {
+                    right image5,
+                    left image7,
+                    cropWidth 341,
+                    width 127.875
+                }
+            }
+            this.currentSprite = this.sprites.stand.right
+            this.currentCropWidth = 177
+        }
+        draw() {
+            c.drawImage(this.currentSprite, 
+                        this.currentCropWidth  this.frames,
+                        0,
+                        this.currentCropWidth,
+                        400, 
+                        this.position.x, 
+                        this.position.y, 
+                        this.width, 
+                        this.height)
+        }
+        update() {
+            this.frames +=1
+            if (this.frames  59  && 
+                (this.currentSprite === this.sprites.stand.right  this.currentSprite === this.sprites.stand.left)) 
+                this.frames = 0
+            else if (this.frames  29 && 
+            (this.currentSprite === this.sprites.run.right  this.currentSprite === this.sprites.run.left) ) 
+            this.frames = 0
+
+            this.draw()
+            this.position.x += this.velocity.x
+            this.position.y += this.velocity.y
+            
+            if (this.position.y +this.height +this.velocity.y = canvas.height)
+            this.velocity.y += gravity
+            
+    
+        }
+    
+    }
+    
+    const image = new Image()
+    image.src = 'platform.png'
+
+    const image1 = new Image()
+    image1.src = 'hills.png'
+
+    const image2 = new Image()
+    image2.src = 'background.png'
+
+    const image3 = new Image()
+    image3.src = 'platformSmallTall.png'
+
+
+
+    class Platform {
+        constructor({x, y, image}) {
+            this.position = {
+                x,
+                y
+            }
+            this.image = image
+            this.width = 500
+            this.height = 100
+            
+    
+        }
+    
+        draw() {
+            c.drawImage(this.image, this.position.x, this.position.y)
+        }
+    }
+
+
+    class Platform1 {
+        constructor({x, y, image}) {
+            this.position = {
+                x,
+                y 
+            }
+            this.image = image3
+            this.width = 200
+            this.height = 800
+            
+    
+        }
+    
+        draw() {
+            c.drawImage(this.image, this.position.x, this.position.y)
+        }
+    }
+
+
+    class GenericObject {
+        constructor({x, y, image}) {
+            this.position = {
+                x -1,
+                y -1
+            }
+            this.image = image2
+            this.width = 1020
+            this.height = 576
+            
+    
+        }
+    
+        draw() {
+            c.drawImage(this.image, this.position.x, this.position.y)
+        }
+    }
+
+
+    class GenericObject1 {
+        constructor({x, y, image}) {
+            this.position = {
+                x 10,
+                y 10
+            }
+            this.image = image1
+            this.width = 100
+            this.height = 50
+            
+    
+        }
+    
+        draw() {
+            c.drawImage(this.image, this.position.x, this.position.y)
+        }
+    }
+    
+
+
+    let player = new Player()
+    let platforms = []
+    let platforms1 = []
+    let genericObjects = []
+    let genericObjects1 = []
+    let lastKey
+    
+    const keys = {
+        right {
+            pressed false
+        },
+        left {
+            pressed false
+        }
+    }
+    
+    
+
+
+
+
+
+
+
+
+    function init() { 
+    player = new Player()
+    platforms = [
+      new Platform({
+          x -1, 
+          y 470,
+          image image
+      }), 
+      new Platform({
+          x 577, 
+          y 470,
+          image image
+  
+      }),
+      new Platform({
+          x 1300, 
+          y 470,
+          image image
+  
+      }),
+      new Platform({
+          x 2700, 
+          y 470,
+          image image
+  
+      }),
+      new Platform({
+          x 4500, 
+          y 470,
+          image image
+  
+      })]
+
+
+
+      platforms1 = [
+      new Platform1({
+          x 2060, 
+          y 230,
+          image image3
+      }), 
+      new Platform1({
+          x 3610, 
+          y 190,
+          image image3
+      }), 
+      new Platform1({
+          x 4100, 
+          y 190,
+          image image3
+  
+      }),
+      new Platform1({
+          x 5500, 
+          y 150,
+          image image3
+  
+      })]
+
+      genericObjects = [
+      new GenericObject({
+          x -1, 
+          y -1,
+          image image2
+      })]
+
+
+      genericObjects1 = [
+      new GenericObject1({
+          x -1, 
+          y -1,
+          image image1
+      }),
+      new GenericObject1({
+          x 3200, 
+          y -1,
+          image image1
+      }),
+      new GenericObject1({
+          x 6500, 
+          y -1,
+          image image1
+      })]
+    
+    scrolloffset = 0
+    c.font = 30px Arial
+    c.fillText(SCORE   + scrolloffset, 30, 50)
+    scoreEl.innerHTML = scrolloffset
+    
+}
+    
+    function animate() {
+        requestAnimationFrame(animate)
+        c.fillStyle = 'white'
+        c.fillRect(0,0, canvas.width, canvas.height)
+        c.font = 30px Arial
+        c.fillText(SCORE   + scrolloffset, 30, 50)
+        
+        
+        genericObjects.forEach(genericObjects = {
+            genericObjects.draw()
+        })
+        genericObjects1.forEach(genericObjects1 = {
+            genericObjects1.draw()
+        })
+
+        platforms1.forEach(platform1 = {
+            platform1.draw()
+        })
+
+        platforms.forEach(platform = {
+            platform.draw()
+        })
+        
+        player.update()
+    
+        if (keys.right.pressed && player.position.x  400) {
+            player.velocity.x = player.speed
+            c.font = 30px Arial
+            c.fillText(SCORE   + scrolloffset, 30, 50)
+            scoreEl.innerHTML = scrolloffset
+        } 
+        else if ((keys.left.pressed && player.position.x  100 ) 
+         (keys.left.pressed && scrolloffset === 0 && player.position.x  0) ){
+            player.velocity.x = -player.speed
+            c.font = 30px Arial
+            c.fillText(SCORE   + scrolloffset, 30, 50)
+            scoreEl.innerHTML = scrolloffset
+            
+        }
+        else {
+            player.velocity.x = 0
+    
+            if (keys.right.pressed) {
+                scrolloffset += player.speed
+                
+                platforms.forEach(platform = {
+                    platform.position.x -= player.speed
+                })
+
+                platforms1.forEach(platform1 = {
+                    platform1.position.x -= player.speed
+                })
+
+                genericObjects.forEach(genericObjects = {
+                    genericObjects.position.x -= player.speed  0.66
+                })
+                genericObjects1.forEach(genericObjects1 = {
+                    genericObjects1.position.x -= player.speed  0.66
+                })
+                c.font = 30px Arial
+                c.fillText(SCORE   + scrolloffset, 30, 50)
+                scoreEl.innerHTML = scrolloffset
+
+            } 
+             else if (keys.left.pressed && scrolloffset  0) {
+                 scrolloffset -= player.speed
+                
+                 platforms.forEach(platform = {
+                     platform.position.x += player.speed
+                 })
+                 platforms1.forEach(platform1 = {
+                     platform1.position.x += player.speed
+                 })
+
+                 genericObjects.forEach(genericObjects = {
+                     genericObjects.position.x += player.speed  0.66
+                 })
+                 genericObjects1.forEach(genericObjects1 = {
+                     genericObjects1.position.x += player.speed  0.66
+                 })
+                 c.font = 30px Arial
+                 c.fillText(SCORE   + scrolloffset, 30, 50)
+                 scoreEl.innerHTML = scrolloffset
+             }
+        }
+    
+         platform collision detection
+        platforms.forEach(platform = {
+        if (player.position.y + player.height = platform.position.y && 
+            player.position.y + player.height + player.velocity.y = platform.position.y && 
+            player.position.x + player.width = platform.position.x && 
+            player.position.x = platform.position.x + platform.width ) 
+            {
+            player.velocity.y = 0
+            }
+        })
+
+        platforms1.forEach(platform1 = {
+        if (player.position.y + player.height = platform1.position.y && 
+            player.position.y + player.height + player.velocity.y = platform1.position.y && 
+            player.position.x + player.width = platform1.position.x && 
+            player.position.x = platform1.position.x + platform1.width ) 
+            {
+            player.velocity.y = 0
+            }
+        })
+
+        sprite switching 
+        if (keys.right.pressed &&
+            lastKey === 'right' && 
+        player.currentSprite !== player.sprites.run.right){
+            player.frames = 1       
+            player.currentSprite = player.sprites.run.right
+            player.currentCropWidth = player.sprites.run.cropWidth
+            player.width = player.sprites.run.width
+        }
+
+        else if(keys.left.pressed &&
+            lastKey === 'left' && 
+        player.currentSprite !== player.sprites.run.left){
+            player.currentSprite = player.sprites.run.left
+            player.currentCropWidth = player.sprites.run.cropWidth
+            player.width = player.sprites.run.width
+        }
+
+        else if(!keys.left.pressed &&
+            lastKey === 'left' && 
+        player.currentSprite !== player.sprites.stand.left){
+            player.currentSprite = player.sprites.stand.left
+            player.currentCropWidth = player.sprites.stand.cropWidth
+            player.width = player.sprites.stand.width
+        }
+
+        else if(!keys.right.pressed &&
+            lastKey === 'right' && 
+        player.currentSprite !== player.sprites.stand.right){
+            player.currentSprite = player.sprites.stand.right
+            player.currentCropWidth = player.sprites.stand.cropWidth
+            player.width = player.sprites.stand.width
+        }
+
+        
+    
+        win condition
+        if (scrolloffset  2500 && scrolloffset 2800) {
+            
+            console.log('You win')
+            c.font = 40px Arial
+            c.fillText(You Win, 512, 288)        
+        } 
+
+        if (scrolloffset == 0 && scrolloffset 900) {
+            
+            console.log('Level 1')
+            c.font = 40px Arial
+           c.fillText(LEVEL 1, 512, 288)        
+        } 
+
+        if (scrolloffset  2800 && scrolloffset 3000) {
+            
+            console.log('Level 2')
+            c.font = 40px Arial
+            c.fillText(LEVEL 2, 512, 288)        
+        } 
+
+
+        lose condition
+        if (player.position.y  canvas.height) {
+            alert(You Lose)
+            c.fillText(You Lose, 512,288)
+           
+            init()
+            
+        }
+    }
+    
+    init()
+    animate()
+    
+    addEventListener('keydown', ({keyCode}) = {
+      switch (keyCode) {
+        case 37
+            console.log('left')
+            keys.left.pressed = true
+            lastKey = 'left'
+            break
+        case 38
+            console.log('up')
+            player.velocity.y -= 20
+            break
+        case 39
+            console.log('right')
+            keys.right.pressed = true
+            lastKey = 'right'
+            break
+        case 40
+            console.log('down')
+            break
+      }
+      console.log(keys.right.pressed)
+    })
+    
+    addEventListener('keyup', ({keyCode}) = {
+      switch (keyCode) {
+        case 37
+            console.log('left')
+            keys.left.pressed = false
+            break
+        case 38
+            console.log('up')
+            player.velocity.y -= 10
+            break
+        case 39
+            console.log('right')
+            keys.right.pressed = false
+            break
+        case 40
+            console.log('down')
+            break
+      }
+      console.log(keys.right.pressed)
+    })
+    
+    
+    script   
+    
+html

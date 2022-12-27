@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+
+.header{
+  font-family: 'Poppins',serif;
+  font-weight:bold;
+   
+  
+}
+.form-rounded{
+  border-radius: 1rem;
+  border-color: tomato;
+  width: 80%;
+  
+}
+.form-rounded2{
+  border-radius: 1rem;
+  background-color: tomato;
+  color: rgb(209, 28, 40);
+  width: 80%;
+
+}
+.bg{
+  
+  background-image: url("mario.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100%;
+  min-width: 1024px;
+	
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+	
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+
+}
+.img-fluid{
+  height: 600px;
+}
+.sform{
+  background-color:white;
+  padding: 25px;
+  width: 350px;
+  border-radius: 10px;
+  position:absolute; 
+  left:950px; 
+  top:30px;
+
+}
+form{
+  background-color:rgb(255, 255, 255);
+  padding: 25px;
+  
+  width: 350px;
+  border-radius: 10px;
+  position:absolute; 
+  left:950px; 
+  top:90px;
+
+}
+body {
+  margin: 0;
+  font-family: "Lato", sans-serif;
+}
