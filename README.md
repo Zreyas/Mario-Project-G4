@@ -1,7 +1,5 @@
 ﻿# Mario-Project
 
-Group - 4
-
 R.Sreyas - 41 ,
 Rosmi Johnson -40 ,
 Sana TA - 45 ,
